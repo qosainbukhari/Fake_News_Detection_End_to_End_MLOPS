@@ -1,0 +1,108 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python -c "from src.pipeline.data_ingestion_pipeline import 
+      DataIngestionPipeline; DataIngestionPipeline().run()"
+    deps:
+    - path: data/raw/WELFake_Dataset.csv
+      hash: md5
+      md5: b5889d157c32ef8799e033a98c4609c2
+      size: 245009229
+    - path: src/components/data_ingestion.py
+      hash: md5
+      md5: ee2faccd3cec6d8ad760f8daa7be4ecd
+      size: 1270
+    - path: src/pipeline/data_ingestion_pipeline.py
+      hash: md5
+      md5: 3c08a4087820bb0298ea82d14cf84361
+      size: 753
+    outs:
+    - path: artifacts/data_ingestion/WELFake_Dataset.csv
+      hash: md5
+      md5: c4060ea79b3aa4e75d2aa56073415d7a
+      size: 245081374
+  data_transformation:
+    cmd: python -c "from src.pipeline.data_transformation_pipeline import 
+      DataTransformationPipeline; DataTransformationPipeline().run()"
+    deps:
+    - path: artifacts/data_ingestion/WELFake_Dataset.csv
+      hash: md5
+      md5: c4060ea79b3aa4e75d2aa56073415d7a
+      size: 245081374
+    - path: src/components/data_transformation.py
+      hash: md5
+      md5: 6873128f73f18cd18c1d11089475a2fe
+      size: 3209
+    - path: src/pipeline/data_transformation_pipeline.py
+      hash: md5
+      md5: c569397d91d77fb7fe5e8843da0a66a9
+      size: 886
+    params:
+      params.yaml:
+        random_state: 42
+        test_size: 0.2
+    outs:
+    - path: artifacts/data_transformation/test.csv
+      hash: md5
+      md5: 0042a3cdfab311991da7fd56e8271e0b
+      size: 32716799
+    - path: artifacts/data_transformation/train.csv
+      hash: md5
+      md5: 6ea94d734effc2069755d8d16f6eb221
+      size: 131337100
+  model_trainer:
+    cmd: python -c "from src.pipeline.model_trainer_pipeline import 
+      ModelTrainerPipeline; ModelTrainerPipeline().run()"
+    deps:
+    - path: artifacts/data_transformation/train.csv
+      hash: md5
+      md5: 6ea94d734effc2069755d8d16f6eb221
+      size: 131337100
+    - path: src/components/model_trainer.py
+      hash: md5
+      md5: 8b930895b51294107ac4e9dd825764c7
+      size: 1855
+    - path: src/pipeline/model_trainer_pipeline.py
+      hash: md5
+      md5: 1ada799b2b702c2e98502b992e634af9
+      size: 809
+    params:
+      params.yaml:
+        max_features: 5000
+        model.name: RandomForestClassifier
+        model.params.n_estimators: 100
+        model.params.random_state: 42
+    outs:
+    - path: artifacts/model_trainer/model.joblib
+      hash: md5
+      md5: d2ab83484cfc09d0902b48845eca7211
+      size: 76754377
+    - path: artifacts/model_trainer/tfidf_vectorizer.joblib
+      hash: md5
+      md5: 3b9ad13f582bae0ff9885adb86695409
+      size: 184670
+  model_evaluation:
+    cmd: python -c "from src.pipeline.model_evaluation_pipeline import 
+      ModelEvaluationPipeline; ModelEvaluationPipeline().run()"
+    deps:
+    - path: artifacts/data_transformation/test.csv
+      hash: md5
+      md5: 0042a3cdfab311991da7fd56e8271e0b
+      size: 32716799
+    - path: artifacts/model_trainer/model.joblib
+      hash: md5
+      md5: d2ab83484cfc09d0902b48845eca7211
+      size: 76754377
+    - path: src/components/model_evaluation.py
+      hash: md5
+      md5: 66304605719c7ab5c6fc46d99bbd65bc
+      size: 1775
+    - path: src/pipeline/model_evaluation_pipeline.py
+      hash: md5
+      md5: 998b587903c1c72e95af7b483ac9fda9
+      size: 779
+    outs:
+    - path: artifacts/model_evaluation/metrics.json
+      hash: md5
+      md5: ba4bdd812f9b1eb78016fc27d7a53267
+      size: 101
