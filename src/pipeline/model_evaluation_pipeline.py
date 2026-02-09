@@ -10,7 +10,10 @@ class ModelEvaluationPipeline:
     def run(self):
         config = ConfigurationManager()
         model_evaluation_config = config.get_model_evaluation_config()
-        model_evaluation = ModelEvaluation(config=model_evaluation_config)
+        params = config.params
+        model_evaluation = ModelEvaluation(
+            config=model_evaluation_config, params=params
+        )
         model_evaluation.initiate_model_evaluation()
 
 

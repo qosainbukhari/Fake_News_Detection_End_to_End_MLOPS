@@ -31,5 +31,8 @@ class ModelTrainerConfig:
 class ModelEvaluationConfig:
     root_dir: Path
     model_path: Path
+    vectorizer_path: Path
     test_data_path: Path
     metric_file_path: Path
+    mlflow_uri: str
+    experiment_name: str

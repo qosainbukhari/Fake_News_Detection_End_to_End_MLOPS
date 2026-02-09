@@ -56,6 +56,9 @@ class ConfigurationManager:
         return ModelEvaluationConfig(
             root_dir=Path(config["root_dir"]),
             model_path=Path(config["model_path"]),
+            vectorizer_path=Path(config["vectorizer_path"]),
             test_data_path=Path(config["test_data_path"]),
             metric_file_path=Path(config["metric_file_path"]),
+            mlflow_uri=config["mlflow_uri"],
+            experiment_name=config["experiment_name"],
         )
