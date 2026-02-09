@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.git/
+notebooks/
+mlruns/
+logs/
+.env
+*.egg-info/

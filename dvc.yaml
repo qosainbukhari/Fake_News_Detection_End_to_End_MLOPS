@@ -1,0 +1,48 @@
+stages:
+  data_ingestion:
+    cmd: python -c "from src.pipeline.data_ingestion_pipeline import DataIngestionPipeline; DataIngestionPipeline().run()"
+    deps:
+      - src/components/data_ingestion.py
+      - src/pipeline/data_ingestion_pipeline.py
+      - data/raw/WELFake_Dataset.csv
+    outs:
+      - artifacts/data_ingestion/WELFake_Dataset.csv
+
+  data_transformation:
+    cmd: python -c "from src.pipeline.data_transformation_pipeline import DataTransformationPipeline; DataTransformationPipeline().run()"
+    deps:
+      - src/components/data_transformation.py
+      - src/pipeline/data_transformation_pipeline.py
+      - artifacts/data_ingestion/WELFake_Dataset.csv
+    params:
+      - test_size
+      - random_state
+    outs:
+      - artifacts/data_transformation/train.csv
+      - artifacts/data_transformation/test.csv
+
+  model_trainer:
+    cmd: python -c "from src.pipeline.model_trainer_pipeline import ModelTrainerPipeline; ModelTrainerPipeline().run()"
+    deps:
+      - src/components/model_trainer.py
+      - src/pipeline/model_trainer_pipeline.py
+      - artifacts/data_transformation/train.csv
+    params:
+      - max_features
+      - model.name
+      - model.params.n_estimators
+      - model.params.random_state
+    outs:
+      - artifacts/model_trainer/model.joblib
+      - artifacts/model_trainer/tfidf_vectorizer.joblib
+
+  model_evaluation:
+    cmd: python -c "from src.pipeline.model_evaluation_pipeline import ModelEvaluationPipeline; ModelEvaluationPipeline().run()"
+    deps:
+      - src/components/model_evaluation.py
+      - src/pipeline/model_evaluation_pipeline.py
+      - artifacts/model_trainer/model.joblib
+      - artifacts/data_transformation/test.csv
+    metrics:
+      - artifacts/model_evaluation/metrics.json:
+          cache: false

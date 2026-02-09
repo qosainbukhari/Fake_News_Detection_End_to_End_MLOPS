@@ -1,0 +1,12 @@
+pandas
+numpy
+scikit-learn
+nltk
+mlflow
+dvc
+fastapi
+uvicorn
+python-dotenv
+PyYAML
+ensure
+joblib

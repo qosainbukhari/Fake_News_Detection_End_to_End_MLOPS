@@ -1,0 +1,9 @@
+test_size: 0.2
+random_state: 42
+max_features: 5000
+
+model:
+  name: "RandomForestClassifier"
+  params:
+    n_estimators: 100
+    random_state: 42

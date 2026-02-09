@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Fake News Detector</h1>
+        <p class="subtitle">Paste a news article below to check if it's real or fake</p>
+
+        <div class="input-section">
+            <textarea id="newsInput" placeholder="Enter or paste news article text here..." rows="8"></textarea>
+            <button id="predictBtn" onclick="predict()">Analyze</button>
+        </div>
+
+        <div id="result" class="result hidden">
+            <div id="resultIcon" class="result-icon"></div>
+            <div id="resultText" class="result-text"></div>
+        </div>
+
+        <div id="loader" class="loader hidden">
+            <div class="spinner"></div>
+            <p>Analyzing...</p>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
