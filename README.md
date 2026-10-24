@@ -40,7 +40,7 @@ An end-to-end machine learning project that classifies news articles as **Real**
 ## Project Structure
 
 ```
-fake-news-detection/
+Fake_News_Detection_End_to_End_MLOPS/
 ├── app.py                         # FastAPI application
 ├── main.py                        # Full pipeline runner
 ├── setup.py                       # Package installer
@@ -114,8 +114,8 @@ Data Ingestion → Data Transformation → Model Training → Model Evaluation
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/fake-news-detection.git
-cd fake-news-detection
+git clone https://github.com/QosainBukhari/Fake_News_Detection_End_to_End_MLOPS.git
+cd Fake_News_Detection_End_to_End_MLOPS
 ```
 
 ### 2. Create conda environment

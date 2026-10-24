@@ -9,3 +9,6 @@ artifacts/
 data/raw/
 *.joblib
 .ipynb_checkpoints/
+
+mlflow.db
+mlruns/
